@@ -1,10 +1,19 @@
-import { colors } from "app/constants/colors";
+import { colors } from "../constants/colors";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { AntDesign } from "@expo/vector-icons";
 
-export const HomeCard = ({ text, icon }: { text: string; icon: any }) => {
+export const HomeCard = ({
+  text,
+  icon,
+  onPress,
+}: {
+  text: string;
+  icon: any;
+  onPress: () => void;
+}) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={styles.card}>
         <Text style={styles.text}>{text}</Text>
         <Ionicons name={icon} size={60} color={colors.icon} />
@@ -29,6 +38,5 @@ const styles = StyleSheet.create({
   text: {
     color: colors.text,
     fontSize: 30,
-    fontFamily: "Combo-Regular",
   },
 });

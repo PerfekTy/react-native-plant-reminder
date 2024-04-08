@@ -1,18 +1,27 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { colors } from "app/constants/colors";
+import { colors } from "../constants/colors";
+import { signOut } from "firebase/auth";
+import { FIREBASE_AUTH } from "../../firebase-config";
 
-export const HomeHeader = () => {
+export const HomeHeader = ({ navigation }) => {
   return (
     <View style={styles.namebar}>
       <Text style={styles.text}>Plant Reminder</Text>
       <View style={styles.icons}>
-        <Ionicons name="cog-outline" size={32} color={colors.green4} />
-        <Ionicons
-          name="person-circle-outline"
-          size={32}
-          color={colors.green4}
-        />
+        <TouchableOpacity onPress={() => signOut(FIREBASE_AUTH)}>
+          <Text>Logout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+          <Ionicons name="cog-outline" size={32} color={colors.green4} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("My Profile")}>
+          <Ionicons
+            name="person-circle-outline"
+            size={32}
+            color={colors.green4}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -22,7 +31,6 @@ const styles = StyleSheet.create({
   text: {
     color: colors.text,
     fontSize: 33,
-    fontFamily: "Combo-Regular",
   },
   namebar: {
     display: "flex",
@@ -36,6 +44,7 @@ const styles = StyleSheet.create({
   icons: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
     gap: 10,
     marginLeft: "auto",
   },

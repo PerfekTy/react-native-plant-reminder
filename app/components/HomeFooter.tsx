@@ -1,4 +1,4 @@
-import { colors } from "app/constants/colors";
+import { colors } from "../constants/colors";
 import { Text, View } from "react-native";
 
 export const HomeFooter = () => {
@@ -10,7 +10,6 @@ export const HomeFooter = () => {
           color: colors.text,
           textAlign: "center",
           fontSize: 26,
-          fontFamily: "Combo-Regular",
         }}
       >
         Remember watering your plants!

@@ -1,5 +1,56 @@
-import Navigation from "./config/navigation";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { FIREBASE_AUTH } from "../firebase-config";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Home from "./screens/home";
+import Plants from "./screens/plants";
+import Login from "./screens/login";
+import Register from "./screens/register";
+
+const Stack = createStackNavigator();
+const InsideStack = createStackNavigator();
 
 export default function App() {
-  return <Navigation />;
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      setUser(user);
+    });
+  }, [user]);
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        {user ? (
+          <Stack.Screen
+            name="Inside"
+            component={InsideStackScreen}
+            options={{ presentation: "transparentModal", headerShown: false }}
+          />
+        ) : (
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ presentation: "transparentModal", headerShown: false }}
+          />
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
+
+const InsideStackScreen = () => {
+  return (
+    <InsideStack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="My Plants" component={Plants} />
+    </InsideStack.Navigator>
+  );
+};

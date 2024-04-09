@@ -10,7 +10,7 @@ export const HomeFooter = () => {
         paddingBottom: 20,
       }}
     >
-      <MyText cn={{ fontSize: 26, textAlign: "center" }}>
+      <MyText cn={{ fontSize: 26, textAlign: "center", marginTop: 10 }}>
         Remember watering your plants!
       </MyText>
     </View>

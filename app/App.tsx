@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { FIREBASE_AUTH } from "../firebase-config";
 
@@ -16,14 +16,16 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+    const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
       setUser(user);
     });
-  }, [user]);
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName={user ? "Inside" : "Login"}>
         {user ? (
           <Stack.Screen
             name="Inside"
@@ -31,11 +33,18 @@ export default function App() {
             options={{ presentation: "transparentModal", headerShown: false }}
           />
         ) : (
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ presentation: "transparentModal", headerShown: false }}
-          />
+          <>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ presentation: "transparentModal", headerShown: false }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={{ presentation: "card", headerShown: false }}
+            />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
@@ -45,12 +54,12 @@ export default function App() {
 const InsideStackScreen = () => {
   return (
     <InsideStack.Navigator initialRouteName="Home">
-      <Stack.Screen
+      <InsideStack.Screen
         name="Home"
         component={Home}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="My Plants" component={Plants} />
+      <InsideStack.Screen name="My Plants" component={Plants} />
     </InsideStack.Navigator>
   );
 };

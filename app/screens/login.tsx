@@ -8,6 +8,8 @@ import {
   TouchableWithoutFeedback,
   Text,
   TouchableOpacity,
+  ScrollView,
+  Image,
 } from "react-native";
 import { colors } from "../constants/colors";
 import { TextInput } from "react-native-gesture-handler";
@@ -16,6 +18,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { Ionicons } from "@expo/vector-icons";
+import MyText from "../components/MyText";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -36,64 +40,60 @@ export default function Login({ navigation }) {
     }
   };
 
-  const signUp = async () => {
-    try {
-      setIsLoading(true);
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      alert(response);
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.fieldset}>
-          <Text style={styles.text}>Email</Text>
-          <TextInput
-            keyboardType="email-address"
-            style={styles.input}
-            placeholder="example@post.com"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Image
+            source={require("../assets/images/logo.png")}
+            resizeMode="contain"
+            style={styles.logo}
           />
-        </View>
-        <View style={styles.fieldset}>
-          <Text style={styles.text}>Password</Text>
-          <TextInput
-            secureTextEntry
-            style={styles.input}
-            placeholder="******"
-            autoCapitalize="none"
-            value={password}
-            onChangeText={(password) => setPassword(password)}
-          />
-        </View>
-
-        {isLoading ? (
-          <ActivityIndicator size="large" color={colors.green3} />
-        ) : (
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.buttonSignIn} onPress={signIn}>
-              <Text style={styles.buttonText}>Sign in</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonSignUp}
-              // onPress={() => navigation.navigate("Register")}
-              onPress={signUp}
-            >
-              <Text style={styles.buttonText}>Create new account</Text>
-            </TouchableOpacity>
+          <View style={styles.fieldset}>
+            <MyText cn={{ fontSize: 16 }}>Email</MyText>
+            <TextInput
+              keyboardType="email-address"
+              style={styles.input}
+              placeholder="example@post.com"
+              autoCapitalize="none"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
           </View>
-        )}
+          <View style={styles.fieldset}>
+            <MyText cn={{ fontSize: 16 }}>Password</MyText>
+            <TextInput
+              secureTextEntry
+              style={styles.input}
+              placeholder="******"
+              autoCapitalize="none"
+              value={password}
+              onChangeText={(password) => setPassword(password)}
+            />
+          </View>
+
+          {isLoading ? (
+            <ActivityIndicator size="large" color={colors.green3} />
+          ) : (
+            <View style={styles.buttons}>
+              <TouchableOpacity style={styles.buttonSignIn} onPress={signIn}>
+                <Ionicons name="md-log-in" size={20} color="black" />
+                <MyText cn={styles.buttonSignIn}>Sign in</MyText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonSignUp}
+                onPress={() => navigation.navigate("Register")}
+              >
+                <MyText cn={styles.buttonText}>Create new account</MyText>
+                <Ionicons
+                  name="md-arrow-forward-sharp"
+                  size={20}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -102,9 +102,17 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.green4,
+  },
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: "center",
     paddingHorizontal: 20,
-    backgroundColor: colors.green4,
+  },
+  logo: {
+    width: "100%",
+    height: 150,
+    marginBottom: 20,
   },
   input: {
     marginVertical: 4,
@@ -113,6 +121,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: colors.green3,
+    fontFamily: "Kurale-Regular",
   },
   buttons: {
     flexDirection: "row",
@@ -121,23 +130,29 @@ const styles = StyleSheet.create({
   },
   buttonSignIn: {
     backgroundColor: colors.green2,
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    fontSize: 18,
   },
   buttonSignUp: {
     backgroundColor: colors.green1,
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    fontSize: 18,
   },
   fieldset: {
     gap: 5,
     marginVertical: 10,
   },
-  text: {
-    fontSize: 16,
-  },
+
   buttonText: {
     color: "#000",
     fontSize: 16,

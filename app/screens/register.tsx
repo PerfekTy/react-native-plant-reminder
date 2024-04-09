@@ -9,10 +9,14 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Keyboard,
+  Image,
+  ScrollView,
 } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../firebase-config";
 import { colors } from "../constants/colors";
+import { Ionicons } from "@expo/vector-icons";
+import MyText from "../components/MyText";
 
 export default function Register({ navigation }) {
   const [email, setEmail] = useState("");
@@ -40,56 +44,65 @@ export default function Register({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={styles.fieldset}>
-          <Text style={styles.text}>Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Jane Doe"
-            autoCapitalize="words"
-            value={name}
-            onChangeText={(text) => setName(text)}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Image
+            source={require("../assets/images/logo.png")}
+            resizeMode="contain"
+            style={styles.logo}
           />
-        </View>
-
-        <View style={styles.fieldset}>
-          <Text style={styles.text}>Email</Text>
-          <TextInput
-            keyboardType="email-address"
-            style={styles.input}
-            placeholder="example@post.com"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-        </View>
-
-        <View style={styles.fieldset}>
-          <Text style={styles.text}>Password</Text>
-          <TextInput
-            secureTextEntry
-            style={styles.input}
-            placeholder="******"
-            autoCapitalize="none"
-            value={password}
-            onChangeText={(password) => setPassword(password)}
-          />
-        </View>
-
-        {isLoading ? (
-          <ActivityIndicator size="large" color={colors.green3} />
-        ) : (
-          <View style={styles.buttons}>
-            <TouchableOpacity style={styles.buttonSignUp} onPress={signUp}>
-              <Text style={styles.buttonText}>Sign up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonSignIn}
-              onPress={() => navigation.navigate("Login")}
-            >
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
+          <View style={styles.fieldset}>
+            <MyText cn={styles.text}>Name</MyText>
+            <TextInput
+              style={styles.input}
+              placeholder="Jane Doe"
+              autoCapitalize="words"
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
           </View>
-        )}
+
+          <View style={styles.fieldset}>
+            <MyText cn={styles.text}>Email</MyText>
+            <TextInput
+              keyboardType="email-address"
+              style={styles.input}
+              placeholder="example@post.com"
+              autoCapitalize="none"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+
+          <View style={styles.fieldset}>
+            <MyText cn={styles.text}>Password</MyText>
+            <TextInput
+              secureTextEntry
+              style={styles.input}
+              placeholder="******"
+              autoCapitalize="none"
+              value={password}
+              onChangeText={(password) => setPassword(password)}
+            />
+          </View>
+
+          {isLoading ? (
+            <ActivityIndicator size="large" color={colors.green3} />
+          ) : (
+            <View style={styles.buttons}>
+              <TouchableOpacity style={styles.buttonSignUp} onPress={signUp}>
+                <Ionicons name="md-log-in" size={20} color="black" />
+                <MyText cn={styles.buttonText}>Sign up</MyText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonSignIn}
+                onPress={() => navigation.navigate("Login")}
+              >
+                <Ionicons name="md-arrow-back-sharp" size={20} color="black" />
+                <MyText cn={styles.buttonText}>Back to login</MyText>
+              </TouchableOpacity>
+            </View>
+          )}
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -98,9 +111,17 @@ export default function Register({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.green4,
+  },
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: "center",
     paddingHorizontal: 20,
-    backgroundColor: colors.green4,
+  },
+  logo: {
+    width: "100%",
+    height: 150,
+    marginBottom: 20,
   },
   input: {
     marginVertical: 4,
@@ -109,6 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: colors.green3,
+    fontFamily: "Kurale-Regular",
   },
   buttons: {
     flexDirection: "row",
@@ -120,12 +142,18 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
   },
   buttonSignUp: {
     backgroundColor: colors.green2,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
   },
   fieldset: {
     gap: 5,

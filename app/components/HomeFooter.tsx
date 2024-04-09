@@ -1,19 +1,18 @@
 import { colors } from "../constants/colors";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import MyText from "./MyText";
 
 export const HomeFooter = () => {
   return (
-    <View style={{ backgroundColor: colors.green1, paddingBottom: 20 }}>
-      <Text
-        style={{
-          marginTop: 10,
-          color: colors.text,
-          textAlign: "center",
-          fontSize: 26,
-        }}
-      >
+    <View
+      style={{
+        backgroundColor: colors.green1,
+        paddingBottom: 20,
+      }}
+    >
+      <MyText cn={{ fontSize: 26, textAlign: "center" }}>
         Remember watering your plants!
-      </Text>
+      </MyText>
     </View>
   );
 };

@@ -3,14 +3,15 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "../constants/colors";
 import { signOut } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../firebase-config";
+import MyText from "./MyText";
 
 export const HomeHeader = ({ navigation }) => {
   return (
     <View style={styles.namebar}>
-      <Text style={styles.text}>Plant Reminder</Text>
+      <MyText cn={{ fontSize: 33 }}>Plant Reminder</MyText>
       <View style={styles.icons}>
         <TouchableOpacity onPress={() => signOut(FIREBASE_AUTH)}>
-          <Text>Logout</Text>
+          <Ionicons name="md-log-out-sharp" color="white" size={32} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
           <Ionicons name="cog-outline" size={32} color={colors.green4} />
@@ -28,10 +29,6 @@ export const HomeHeader = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  text: {
-    color: colors.text,
-    fontSize: 33,
-  },
   namebar: {
     display: "flex",
     marginTop: 150,

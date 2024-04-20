@@ -8,6 +8,7 @@ import Home from "./screens/home";
 import Plants from "./screens/plants";
 import Login from "./screens/login";
 import Register from "./screens/register";
+import NewPlant from "./screens/new-plant";
 
 const Stack = createStackNavigator();
 const InsideStack = createStackNavigator();
@@ -60,6 +61,11 @@ const InsideStackScreen = () => {
         options={{ headerShown: false }}
       />
       <InsideStack.Screen name="My Plants" component={Plants} />
+      <InsideStack.Screen
+        name="Add new plant"
+        component={NewPlant}
+        options={{ presentation: "modal" }}
+      />
     </InsideStack.Navigator>
   );
 };

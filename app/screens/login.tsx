@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  Text,
   TouchableOpacity,
   ScrollView,
   Image,
@@ -14,10 +13,7 @@ import {
 import { colors } from "../constants/colors";
 import { TextInput } from "react-native-gesture-handler";
 import { FIREBASE_AUTH } from "../../firebase-config";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
 import MyText from "../components/MyText";
 

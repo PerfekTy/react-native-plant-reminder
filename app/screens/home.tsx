@@ -14,13 +14,13 @@ import { HomeHeader } from "../components/HomeHeader";
 import { useFonts } from "expo-font";
 
 export default function Home({ navigation }) {
-  const [loadedFonts] = useFonts({
-    "Kurale-Regular": require("../assets/fonts/Kurale-Regular.ttf"),
-  });
+  // const [loadedFonts] = useFonts({
+  //   "Kurale-Regular": require("../assets/fonts/Kurale-Regular.ttf"),
+  // });
 
-  if (!loadedFonts) {
-    return null;
-  }
+  // if (!loadedFonts) {
+  //   return null;
+  // }
 
   return (
     <View style={styles.container}>
@@ -36,7 +36,7 @@ export default function Home({ navigation }) {
           <HomeCard
             text="Add new plant"
             icon="add-circle-outline"
-            onPress={() => navigation.navigate("New Plant")}
+            onPress={() => navigation.navigate("Add new plant")}
           />
           <HomeCard
             text="Community"

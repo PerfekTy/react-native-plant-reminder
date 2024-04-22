@@ -17,7 +17,6 @@ const MyText: React.FC<MyTextProps> = ({ children, cn, ...props }) => {
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: "Kurale-Regular",
     color: colors.text,
   },
 });

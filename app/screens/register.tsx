@@ -34,7 +34,7 @@ export default function Register({ navigation }) {
         email,
         password
       );
-      alert(response);
+      alert("Successfully signed up!");
     } catch (error) {
       alert(error.message);
     } finally {
@@ -130,7 +130,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: colors.green3,
-    fontFamily: "Kurale-Regular",
   },
   buttons: {
     flexDirection: "row",

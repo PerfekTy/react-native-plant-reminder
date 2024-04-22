@@ -11,17 +11,8 @@ import { colors } from "../constants/colors";
 import { HomeCard } from "../components/HomeCard";
 import { HomeFooter } from "../components/HomeFooter";
 import { HomeHeader } from "../components/HomeHeader";
-import { useFonts } from "expo-font";
 
 export default function Home({ navigation }) {
-  // const [loadedFonts] = useFonts({
-  //   "Kurale-Regular": require("../assets/fonts/Kurale-Regular.ttf"),
-  // });
-
-  // if (!loadedFonts) {
-  //   return null;
-  // }
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />

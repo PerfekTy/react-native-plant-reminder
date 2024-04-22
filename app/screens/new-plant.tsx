@@ -359,7 +359,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: colors.green3,
-    fontFamily: "Kurale-Regular",
   },
   textArea: {
     textAlignVertical: "top",
@@ -368,6 +367,5 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: colors.green3,
-    fontFamily: "Kurale-Regular",
   },
 });

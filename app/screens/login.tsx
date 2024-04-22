@@ -16,19 +16,23 @@ import { FIREBASE_AUTH } from "../../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
 import MyText from "../components/MyText";
+import { usePushNotifications } from "../hooks/usePushNotifications";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const { expoPushToken, notification } = usePushNotifications();
+  console.log(expoPushToken?.data, notification);
+
   const auth = FIREBASE_AUTH;
 
   const signIn = async () => {
     try {
       setIsLoading(true);
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      alert(response);
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Successfully signed in!");
     } catch (error) {
       alert(error.message);
     } finally {
@@ -117,7 +121,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 10,
     backgroundColor: colors.green3,
-    fontFamily: "Kurale-Regular",
   },
   buttons: {
     flexDirection: "row",

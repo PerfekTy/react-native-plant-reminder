@@ -17,6 +17,8 @@ import MyText from "../components/MyText";
 import { Ionicons } from "@expo/vector-icons";
 import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import { db } from "firebase-config";
+import { ref, set } from "firebase/database";
 
 export default function NewPlant() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -31,6 +33,22 @@ export default function NewPlant() {
   const [age, setAge] = useState("");
   const [frequency, setFrequency] = useState("");
   const [description, setDescription] = useState("");
+
+  const addPlant = async () => {
+    try {
+      await set(ref(db, "plants/" + name), {
+        name,
+        type,
+        age,
+        frequency,
+        description,
+        image,
+      });
+      clearInputs();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const clearInputs = () => {
     setName("");
@@ -77,7 +95,7 @@ export default function NewPlant() {
               {image ? (
                 <Image source={{ uri: image }} style={styles.addButton} />
               ) : (
-                <Ionicons name="md-add-circle-outline" size={40} />
+                <Ionicons name="add-circle-outline" size={40} />
               )}
             </TouchableOpacity>
             <View>
@@ -137,7 +155,7 @@ export default function NewPlant() {
           </View>
           <View style={styles.submitButtons}>
             <Button title="Clear" onPress={clearInputs} />
-            <Button title="Add" />
+            <Button title="Add" onPress={addPlant} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -198,7 +216,7 @@ export function CameraView({
             <View>
               <CameraButton
                 title={"Back"}
-                icon="md-close"
+                icon="close"
                 onPress={() => setStartCamera(false)}
                 color=""
               />
@@ -206,7 +224,7 @@ export function CameraView({
             <View>
               <CameraButton
                 title={""}
-                icon="md-refresh-circle"
+                icon="refresh-circle"
                 onPress={() => {
                   setCameraType(
                     cameraType === CameraType.back
@@ -218,7 +236,7 @@ export function CameraView({
               />
               <CameraButton
                 title={""}
-                icon="md-flash"
+                icon="flash"
                 onPress={() => {
                   setFlash(
                     flash === Camera.Constants.FlashMode.off
@@ -249,20 +267,20 @@ export function CameraView({
             <View>
               <CameraButton
                 title="Re-take picture"
-                icon="md-return-down-back-outline"
+                icon="return-down-back-outline"
                 onPress={() => setImage(null)}
                 color=""
               />
               <CameraButton
                 title="Save picture"
-                icon="md-checkbox-outline"
+                icon="checkbox-outline"
                 onPress={savePicture}
                 color=""
               />
             </View>
             <CameraButton
               title={"Back"}
-              icon="md-close"
+              icon="close"
               onPress={() => setStartCamera(false)}
               color=""
             />
@@ -270,7 +288,7 @@ export function CameraView({
         ) : (
           <CameraButton
             title="Take a picture"
-            icon="md-camera"
+            icon="camera"
             onPress={takePicture}
             color=""
           />

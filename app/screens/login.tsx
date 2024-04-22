@@ -16,15 +16,11 @@ import { FIREBASE_AUTH } from "../../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
 import MyText from "../components/MyText";
-import { usePushNotifications } from "../hooks/usePushNotifications";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const { expoPushToken, notification } = usePushNotifications();
-  console.log(expoPushToken?.data, notification);
 
   const auth = FIREBASE_AUTH;
 
@@ -77,7 +73,7 @@ export default function Login({ navigation }) {
           ) : (
             <View style={styles.buttons}>
               <TouchableOpacity style={styles.buttonSignIn} onPress={signIn}>
-                <Ionicons name="md-log-in" size={20} color="black" />
+                <Ionicons name="log-in" size={20} color="black" />
                 <MyText cn={styles.buttonSignIn}>Sign in</MyText>
               </TouchableOpacity>
               <TouchableOpacity
@@ -85,11 +81,7 @@ export default function Login({ navigation }) {
                 onPress={() => navigation.navigate("Register")}
               >
                 <MyText cn={styles.buttonText}>Create new account</MyText>
-                <Ionicons
-                  name="md-arrow-forward-sharp"
-                  size={20}
-                  color="black"
-                />
+                <Ionicons name="arrow-forward-sharp" size={20} color="black" />
               </TouchableOpacity>
             </View>
           )}

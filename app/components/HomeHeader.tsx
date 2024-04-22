@@ -11,7 +11,7 @@ export const HomeHeader = ({ navigation }) => {
       <MyText cn={{ fontSize: 33 }}>Plant Reminder</MyText>
       <View style={styles.icons}>
         <TouchableOpacity onPress={() => signOut(FIREBASE_AUTH)}>
-          <Ionicons name="md-log-out-sharp" color="white" size={32} />
+          <Ionicons name="log-out-sharp" color="white" size={32} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
           <Ionicons name="cog-outline" size={32} color={colors.green4} />

@@ -90,14 +90,14 @@ export default function Register({ navigation }) {
           ) : (
             <View style={styles.buttons}>
               <TouchableOpacity style={styles.buttonSignUp} onPress={signUp}>
-                <Ionicons name="md-log-in" size={20} color="black" />
+                <Ionicons name="log-in" size={20} color="black" />
                 <MyText cn={styles.buttonText}>Sign up</MyText>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonSignIn}
                 onPress={() => navigation.navigate("Login")}
               >
-                <Ionicons name="md-arrow-back-sharp" size={20} color="black" />
+                <Ionicons name="arrow-back-sharp" size={20} color="black" />
                 <MyText cn={styles.buttonText}>Back to login</MyText>
               </TouchableOpacity>
             </View>

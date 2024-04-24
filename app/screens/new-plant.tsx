@@ -19,32 +19,41 @@ import { Camera, CameraType } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { db } from "firebase-config";
 import { ref, set } from "firebase/database";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { usePushNotifications } from "../hooks/usePushNotifications";
 
 export default function NewPlant() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
-  const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
+  const [cameraType, setCameraType] = useState(CameraType.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
-
   const [startCamera, setStartCamera] = useState(false);
+
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [age, setAge] = useState("");
-  const [frequency, setFrequency] = useState("");
-  const [description, setDescription] = useState("");
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+  };
 
   const addPlant = async () => {
+    if (!name || !type || !age || !date || !image)
+      return alert("Please fill all fields");
     try {
       await set(ref(db, "plants/" + name), {
         name,
         type,
         age,
-        frequency,
-        description,
+        date: date.getTime(),
         image,
       });
+
       clearInputs();
+      alert("Plant added! 🪴,\nfell free to add more!");
     } catch (error) {
       console.log(error);
     }
@@ -54,8 +63,8 @@ export default function NewPlant() {
     setName("");
     setType("");
     setAge("");
-    setFrequency("");
-    setDescription("");
+    setImage(null);
+    setDate(new Date());
   };
 
   useEffect(() => {
@@ -95,7 +104,10 @@ export default function NewPlant() {
               {image ? (
                 <Image source={{ uri: image }} style={styles.addButton} />
               ) : (
-                <Ionicons name="add-circle-outline" size={40} />
+                <View style={{ alignItems: "center" }}>
+                  <MyText>Add image</MyText>
+                  <Ionicons name="add-circle-outline" size={40} />
+                </View>
               )}
             </TouchableOpacity>
             <View>
@@ -132,30 +144,22 @@ export default function NewPlant() {
             </View>
           </View>
           <View style={styles.bottomFieldset}>
-            <MyText cn={styles.text}>Frequency watering</MyText>
-            <TextInput
-              style={styles.input}
-              placeholder="10"
-              autoCapitalize="words"
-              value={frequency}
-              onChangeText={(frequency) => setFrequency(frequency)}
-            />
+            <View
+              style={{ flexDirection: "column", gap: 8, alignItems: "center" }}
+            >
+              <MyText cn={styles.text}>Next watering</MyText>
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={"datetime"}
+                onChange={onChange}
+              />
+            </View>
           </View>
-          <View style={styles.bottomFieldset}>
-            <MyText cn={styles.text}>Description</MyText>
-            <TextInput
-              multiline
-              numberOfLines={10}
-              style={styles.textArea}
-              placeholder="10"
-              autoCapitalize="words"
-              value={description}
-              onChangeText={(description) => setDescription(description)}
-            />
-          </View>
+
           <View style={styles.submitButtons}>
-            <Button title="Clear" onPress={clearInputs} />
-            <Button title="Add" onPress={addPlant} />
+            <Button title="Clear fields" onPress={clearInputs} />
+            <Button title="Add plant" onPress={addPlant} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -177,7 +181,6 @@ export function CameraView({
     if (cameraRef) {
       try {
         const data = await cameraRef.current.takePictureAsync();
-        console.log(data);
         setImage(data.uri);
       } catch (error) {
         console.log(error);
@@ -259,12 +262,16 @@ export function CameraView({
         {image ? (
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flexDirection: "column",
               paddingHorizontal: 30,
             }}
           >
-            <View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
               <CameraButton
                 title="Re-take picture"
                 icon="return-down-back-outline"
@@ -272,16 +279,16 @@ export function CameraView({
                 color=""
               />
               <CameraButton
-                title="Save picture"
-                icon="checkbox-outline"
-                onPress={savePicture}
+                title="Save & close"
+                icon="close"
+                onPress={() => setStartCamera(false)}
                 color=""
               />
             </View>
             <CameraButton
-              title={"Back"}
-              icon="close"
-              onPress={() => setStartCamera(false)}
+              title="Save picture to gallery"
+              icon="checkbox-outline"
+              onPress={savePicture}
               color=""
             />
           </View>

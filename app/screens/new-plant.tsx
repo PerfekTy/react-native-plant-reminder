@@ -20,7 +20,6 @@ import * as MediaLibrary from "expo-media-library";
 import { db } from "firebase-config";
 import { ref, set } from "firebase/database";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { usePushNotifications } from "../hooks/usePushNotifications";
 
 export default function NewPlant() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);

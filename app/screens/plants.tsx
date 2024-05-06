@@ -15,7 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { db } from "firebase-config";
 import { ref, get, remove } from "firebase/database";
 
-export default function Plants() {
+export default function Plants({ navigation }) {
   const [plants, setPlants] = useState([]);
 
   const fetchPlants = async () => {
@@ -54,7 +54,15 @@ export default function Plants() {
           renderItem={({ item }) => (
             <View>
               <View>
-                <View style={styles.plantContainer}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Set / Edit watering date", {
+                      id: item.id,
+                      date: item.date,
+                    })
+                  }
+                  style={styles.plantContainer}
+                >
                   <Image source={{ uri: item?.image }} style={styles.image} />
                   <View style={styles.plantInfo}>
                     <Ionicons
@@ -113,7 +121,7 @@ export default function Plants() {
                             fontSize: 10,
                           }}
                         >
-                          [Next watering]
+                          [Next water]
                         </MyText>
                         <MyText cn={styles.text}>
                           {new Date(item?.date).toLocaleDateString()}
@@ -126,7 +134,7 @@ export default function Plants() {
                       </View>
                     </View>
                   </View>
-                </View>
+                </TouchableOpacity>
               </View>
             </View>
           )}

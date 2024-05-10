@@ -1,39 +1,38 @@
 {
   "expo": {
-    "name": "rn",
-    "slug": "rn",
+    "name": "Plant Reminder",
+    "slug": "Plant Reminder",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./app/assets/icon.png",
+    "notification": {
+      "icon": "./app/assets/icon.png"
+    },
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/logo.png",
-      "resizeMode": "contain",
+      "image": "./app/assets/splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.perfekt.rn"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./app/assets/favicon.png"
     },
     "extra": {
       "eas": {
         "projectId": "1cddb3eb-0aa6-4e75-a2d8-dcb60dbeb026"
       }
     },
-    "plugins": [
-      "expo-font"
-    ]
+    "plugins": ["expo-font"]
   }
 }

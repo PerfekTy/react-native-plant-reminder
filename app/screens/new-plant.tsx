@@ -21,6 +21,8 @@ import { db } from "firebase-config";
 import { ref, set } from "firebase/database";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { CameraType, FlashMode } from "expo-camera/build/legacy/Camera.types";
+import { usePushNotifications } from "app/hooks/usePushNotifications";
+import * as Notifications from "expo-notifications";
 
 export default function NewPlant() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -43,7 +45,20 @@ export default function NewPlant() {
   const addPlant = async () => {
     if (!name || !type || !age || !date || !image)
       return alert("Please fill all fields");
+
     try {
+      const { status } = await Notifications.getPermissionsAsync();
+      if (status !== "granted") {
+        alert(
+          "You need to enable permissions in order to receive notifications"
+        );
+        return;
+      }
+
+      const currentTime = new Date().getTime();
+      const wateringTime = date.getTime();
+      const timeDifferenceInSeconds = (wateringTime - currentTime) / 1000;
+
       await set(ref(db, "plants/" + name), {
         name,
         type,
@@ -53,7 +68,19 @@ export default function NewPlant() {
       });
 
       clearInputs();
-      alert("Plant added! 🪴,\nfell free to add more!");
+      alert("Plant added! 🌱");
+
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          priority: Notifications.AndroidNotificationPriority.HIGH,
+          sound: "default",
+          title: "Water your plant! 💧",
+          body: `Click to set a reminder for ${name} next watering time.`,
+        },
+        trigger: {
+          seconds: timeDifferenceInSeconds,
+        },
+      });
     } catch (error) {
       console.log(error);
     }

@@ -15,17 +15,18 @@ import { TextInput } from "react-native-gesture-handler";
 import { colors } from "../constants/colors";
 import MyText from "../components/MyText";
 import { Ionicons } from "@expo/vector-icons";
-import { Camera, CameraType } from "expo-camera";
+import { Camera, CameraView } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { db } from "firebase-config";
 import { ref, set } from "firebase/database";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { CameraType, FlashMode } from "expo-camera/build/legacy/Camera.types";
 
 export default function NewPlant() {
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [cameraType, setCameraType] = useState(CameraType.back);
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const [flash, setFlash] = useState(FlashMode.off);
   const cameraRef = useRef(null);
   const [startCamera, setStartCamera] = useState(false);
 
@@ -82,7 +83,7 @@ export default function NewPlant() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         {startCamera ? (
-          <CameraView
+          <CameraComponent
             image={image}
             setImage={setImage}
             cameraRef={cameraRef}
@@ -166,7 +167,7 @@ export default function NewPlant() {
   );
 }
 
-export function CameraView({
+export function CameraComponent({
   cameraType,
   flash,
   cameraRef,
@@ -202,11 +203,11 @@ export function CameraView({
   return (
     <View style={styles.cameraContainer}>
       {!image ? (
-        <Camera
+        <CameraView
           style={styles.camera}
-          type={cameraType}
-          flashMode={flash}
+          flash={flash}
           ref={cameraRef}
+          facing={cameraType}
         >
           <View
             style={{
@@ -241,18 +242,14 @@ export function CameraView({
                 icon="flash"
                 onPress={() => {
                   setFlash(
-                    flash === Camera.Constants.FlashMode.off
-                      ? Camera.Constants.FlashMode.on
-                      : Camera.Constants.FlashMode.off
+                    flash === FlashMode.off ? FlashMode.on : FlashMode.off
                   );
                 }}
-                color={
-                  flash === Camera.Constants.FlashMode.off ? "gray" : "#f1f1f1"
-                }
+                color={flash === FlashMode.off ? "gray" : "#f1f1f1"}
               />
             </View>
           </View>
-        </Camera>
+        </CameraView>
       ) : (
         <Image source={{ uri: image }} style={styles.camera} />
       )}
